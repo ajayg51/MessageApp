@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.example.just4fun"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -37,14 +37,21 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
 
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
+
+    // Also declare the dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
     //implementation Firebase Authentication and UI
     //Firebase Auth
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
+//    implementation 'com.google.firebase:firebase-auth:19.3.0'
     //Firebase Firestore
-    implementation 'com.google.firebase:firebase-firestore:21.4.2'
+    implementation 'com.google.firebase:firebase-firestore'
     //Firebase Storage
-    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-storage'
 
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'

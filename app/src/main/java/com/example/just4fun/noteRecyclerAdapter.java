@@ -67,19 +67,25 @@ public class noteRecyclerAdapter extends FirestoreRecyclerAdapter<additems, note
         String timestampMin=timestamp.substring(10,12);
         textViewTimestamp+=timestampDd+'/'+timestampMm+'/'+timestampYr;
         int timestamphr=Integer.parseInt(timestampHr);
-        if(timestamphr>=12 && timestamphr<=23){
-            if(timestamphr>12)
-                timestamphr-=12;
-            textViewTimestamp+="          @ "+String.valueOf(timestamphr)+':'+timestampMin+" PM";
-        }
-        else{
-            if(timestamphr==00)
-                timestamphr=12;
-            textViewTimestamp+="          @ "+String.valueOf(timestamphr)+':'+timestampMin+" AM";
+        if (timestamphr >= 12 && timestamphr <= 23) {
+            if (timestamphr > 12)
+                timestamphr -= 12;
+            textViewTimestamp += "          @ " + String.valueOf(timestamphr) + ':' + timestampMin + " PM";
+        } else {
+            if (timestamphr == 00)
+                timestamphr = 12;
+            textViewTimestamp += "          @ " + String.valueOf(timestamphr) + ':' + timestampMin + " AM";
         }
         holder.textViewTimestamp.setText(textViewTimestamp);
-        holder.textViewMessage.setText(textViewString);
-        Glide.with(holder.imageView).load(task.getPhotourl()).into(holder.imageView);
+        if (task.getEmail() != null)
+            holder.textViewMessage.setText("To: " + task.getEmail() + "\n\n" + textViewString);
+        else
+            holder.textViewMessage.setText(textViewString);
+        if (task.getPhotourl().length() > 0)
+            Glide.with(holder.imageView).load(task.getPhotourl()).into(holder.imageView);
+        else
+            Glide.with(holder.imageView).load(R.drawable.person).into(holder.imageView);
+
     }
 
     @NonNull

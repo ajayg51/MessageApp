@@ -10,58 +10,80 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 public class additems {
-   private String item;
+    private String item;
     private String timestamp;
     private String uid;
+    private String email;
     private String photourl;
-    private  String username;
+    private String username;
 
-    public additems(){
-
-    }
-    public additems(String item, String timestamp,String uid,String photourl,String username){
-        this.item=item;
-        this.timestamp=timestamp;
-        this.uid=uid;
-        this.photourl=photourl;
-        this.username=username;
+    public additems() {
 
     }
 
-    public void setItem(String item){
-        this.item=item;
-
-    }
-    public void setUsername(String username){
-      this.username=username;
-
-    }
-    public void setPhotourl(String photourl){
-        this.photourl=photourl;
-
-    }
-    public void setTimestamp(String timestamp){
-        this.timestamp=timestamp;
-
-    }
-    public void setuid(String uid){
-        this.uid=uid;
+    public additems(String item, String timestamp, String uid, String photourl, String username, String email) {
+        this.item = item;
+        this.timestamp = timestamp;
+        this.uid = uid;
+        this.photourl = photourl;
+        this.username = username;
+        this.email = email;
 
     }
 
-    public String getItem(){
+    public void setItem(String item) {
+        this.item = item;
+
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+
+    }
+
+    public void setPhotourl(String photourl) {
+        this.photourl = photourl;
+
+    }
+
+    public void setuid(String uid) {
+        this.uid = uid;
+
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+
+    }
+
+    public String getItem() {
         return item;
     }
-    public String getTimestamp(){
+
+    public String getTimestamp() {
         return timestamp;
     }
-    public String getUid(){
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+
+    }
+
+    public String getUid() {
         return uid;
     }
-    public String getPhotourl(){
+
+    public String getPhotourl() {
         return photourl;
     }
-    public String getUsername(){ return  username;}
+
+    public String getUsername() {
+        return username;
+    }
 
 
 }

@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -172,33 +174,37 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         "---> Click On UNDO To Recover Back Your Recent Deleted Message\n\n" +
                         "***\nYou Are NOT PERMITTED To Edit OR Delete Other's Messages\nThank You");
 
-        AlertDialog dialog=builder.create();
+        AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFCAE6CD")));
         dialog.show();
     }
 
 
-    private void addNote(String Value){
-        String uid=FirebaseAuth.getInstance().getUid();
+    private void addNote(String Value) {
+        String uid = FirebaseAuth.getInstance().getUid();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
         String timeStamp = simpleDateFormat.format(new Date());
-        String photourl=FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
-        String username=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        additems item=new additems(Value,timeStamp,uid,photourl,username);
+        String photourl = "", email = "";
+        email = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
+        Log.d(TAG, "addNote: email" + email);
+        if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
+            photourl = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
+        String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        additems item = new additems(Value, timeStamp, uid, photourl, username, email);
         FirebaseFirestore.getInstance()
-                        .collection("Messages")
-                        .add(item)
-                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(MainActivity.this, "Added", Toast.LENGTH_SHORT).show();
-                                    Snackbar.make(recyclerView,"Can Be Edited Till MidNight",Snackbar.LENGTH_LONG).show();
-                                }
-                                else
-                                    Log.d(TAG, "onComplete: not added");
-                            }
-                        });
+                .collection("Messages")
+                .add(item)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(MainActivity.this, "added", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private  boolean isConnected(){
@@ -258,10 +264,20 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 return true;
 
             }
+            //if share selected
+            if (id == R.id.action_share) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Share : ")
+                        .setMessage("Send beGlobal.apk file present in file manager and send over whatsapp.Install from file manager only\n");
+                AlertDialog dialog = builder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFCAE6CD")));
+                dialog.show();
+                return true;
+            }
 
             //if logout selected
             if (id == R.id.action_logout) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Sign Out").setMessage("Want to Logout")
                         .setPositiveButton("LogOut", new DialogInterface.OnClickListener() {
                             @Override
@@ -429,25 +445,27 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     .setPositiveButton(Html.fromHtml("<font color='#888b7'>Delete</font>"), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                               DocumentReference documentReference=snapshot.getReference();
-                               documentReference.delete()
-                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                           @Override
-                                           public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Snackbar.make(recyclerView,"Deleted",Snackbar.LENGTH_LONG)
-                                                            .setAction("Undo", new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View view) {
-                                                                    undoAddNote(snapshot);
-                                                                }
-                                                            })
-                                                            .setDuration(3000)
-                                                            .show();
-                                                }
-                                           }
-                                       });
-
+                            DocumentReference documentReference = snapshot.getReference();
+                            documentReference.delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Snackbar.make(recyclerView, "Deleted", Snackbar.LENGTH_LONG)
+                                                    .setAction("Undo", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            undoAddNote(snapshot);
+                                                        }
+                                                    })
+                                                    .setDuration(3000)
+                                                    .show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainActivity.this, "Some Error occured " + e, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     })
                     .setNegativeButton(Html.fromHtml("<font color='#888b7'>Cancel</font>"),null);
@@ -461,20 +479,29 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
 
+    private void undoAddNote(DocumentSnapshot snapshot) {
+        String photourl = "";
+        if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
+            photourl = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
+        String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String email = "";
+        email = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
 
-
-    private void undoAddNote(DocumentSnapshot snapshot){
-        String photourl=FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
-        String username=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        additems item=new additems(snapshot.get("item").toString(),snapshot.get("timestamp").toString(),snapshot.get("uid").toString(),photourl,username);
+        additems item = new additems(snapshot.get("item").toString(), snapshot.get("timestamp").toString(), snapshot.get("uid").toString(), photourl, username, email);
         FirebaseFirestore.getInstance().collection("Messages")
                 .add(item)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                    public void onSuccess(DocumentReference documentReference) {
+
                         Toast.makeText(MainActivity.this, "Recovered", Toast.LENGTH_SHORT).show();
                     }
                 });
+//                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentReference> task) {
+//                    }
+//                });
     }
 
     @Override

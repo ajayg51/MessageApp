@@ -12,10 +12,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -23,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.LogTime;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,11 +38,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class splashScreen extends AppCompatActivity {
-    TextView textView;
+    private static final String TAG = "main";
+    TextView textView, loginbutton2;
     Button loginbutton;
-    int seconds,FIREBASE_AUTH_CODE=9880;
-    boolean connected=false;
+    int seconds, FIREBASE_AUTH_CODE = 1234;
+    boolean connected = false;
     ConstraintLayout constraintLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +52,23 @@ public class splashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
 
-        textView=findViewById(R.id.SplashText);
-        loginbutton=findViewById(R.id.loginbutton);
-        constraintLayout=findViewById(R.id.SplashconstraintLayout);
+        textView = findViewById(R.id.SplashText);
+        loginbutton = findViewById(R.id.loginbutton);
+        loginbutton2 = findViewById(R.id.loginbutton2);
+        constraintLayout = findViewById(R.id.SplashconstraintLayout);
 
-        if(FirebaseAuth.getInstance().getCurrentUser()==null){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             loginbutton.setAlpha(1);
+            loginbutton2.setAlpha(1);
             textView.setAlpha(0);
             loginbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(isConnected()){
+                    if (isConnected()) {
                         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                                new AuthUI.IdpConfig.GoogleBuilder().build()
+//                                new AuthUI.IdpConfig.GoogleBuilder().build()
+                                new AuthUI.IdpConfig.EmailBuilder().build()
+//                                new AuthUI.IdpConfig.PhoneBuilder().build()
                         );
 
                         Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
@@ -88,6 +97,7 @@ public class splashScreen extends AppCompatActivity {
         }
         else {
             loginbutton.setAlpha(0);
+            loginbutton2.setAlpha(0);
             runAnimation();
             seconds=500;
              new Handler().postDelayed(new Runnable() {
@@ -110,19 +120,20 @@ public class splashScreen extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==FIREBASE_AUTH_CODE){
-            if(resultCode==RESULT_OK){
-                    if(FirebaseAuth.getInstance().getCurrentUser().getMetadata().getLastSignInTimestamp()==
-                       FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp())
-                        Toast.makeText(this, "Welcome New User", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(this, "Hello Old User", Toast.LENGTH_SHORT).show();
-
-                    startActivity(new Intent(splashScreen.this,MainActivity.class));
-                    this.finish();
+        if (requestCode == FIREBASE_AUTH_CODE) {
+            if (resultCode == RESULT_OK) {
+                if (FirebaseAuth.getInstance().getCurrentUser().getMetadata().getLastSignInTimestamp() ==
+                        FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp())
+                    Toast.makeText(this, "Welcome New User", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Hello Old User", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(splashScreen.this, MainActivity.class));
+                this.finish();
             }
+        } else {
+            Toast.makeText(this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onActivityResult: fail");
         }
-        else Toast.makeText(this, "Some Error Occured", Toast.LENGTH_SHORT).show();
     }
 
     private boolean isConnected(){

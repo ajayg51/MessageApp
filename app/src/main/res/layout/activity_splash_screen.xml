@@ -47,4 +47,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SplashImage" />
+
+    <TextView
+        android:id="@+id/loginbutton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="182dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="46dp"
+        android:text="Please Provide a Valid Email ID"
+        app:layout_constraintBottom_toTopOf="@+id/SplashText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginbutton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

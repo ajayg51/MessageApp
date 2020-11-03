@@ -14,14 +14,19 @@
         android:orderInCategory="100"
         android:title="Info"
         app:showAsAction="always"
-        android:icon="@drawable/ic_info_outline_black_24dp"
-        />
+        android:icon="@drawable/ic_info_outline_black_24dp" />
     <item
         android:id="@+id/action_profile"
         android:orderInCategory="100"
         android:title="Profile"
         app:showAsAction="never"
-        android:icon="@drawable/ic_profile_pink_24dp"/>
+        android:icon="@drawable/ic_profile_pink_24dp" />
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:orderInCategory="100"
+        android:title="Share"
+        app:showAsAction="never" />
 
 
     <item
@@ -29,5 +34,5 @@
         android:orderInCategory="100"
         android:title="LogOut"
         app:showAsAction="always"
-        android:icon="@drawable/ic_signout_24dp"/>
+        android:icon="@drawable/ic_signout_24dp" />
 </menu>

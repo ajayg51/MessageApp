@@ -20,17 +20,16 @@
             android:theme="@style/AppTheme.CustomThemeAjay" />
         <activity
             android:name=".splashScreen"
-            android:label="MessageApp"
+            android:label="beGlobal"
             android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="Group_Chat :)"
+            android:label="beGlobal"
             android:screenOrientation="nosensor"
             android:theme="@style/AppTheme.FullScreen"
 
