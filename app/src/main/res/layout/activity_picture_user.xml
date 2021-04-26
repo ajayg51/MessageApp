@@ -5,43 +5,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/itemlistbackground"
+    android:id="@+id/picture_user_constraintlayout"
     tools:context=".pictureUser">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/userPicture"
-        android:layout_width="287dp"
-        android:layout_height="246dp"
-        android:layout_marginTop="86dp"
-        android:layout_marginBottom="72dp"
-        app:layout_constraintBottom_toTopOf="@+id/usernamefield"
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="366dp"
+        android:layout_height="314dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/userPicture">
+
+        <Button
+            android:id="@+id/takePic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="1dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="takePic"
+            android:text="Take Photo"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toTopOf="@+id/uploadPic"
+            app:layout_constraintEnd_toEndOf="@+id/uploadPic"
+            app:layout_constraintStart_toStartOf="@+id/uploadPic"
+            app:layout_constraintTop_toBottomOf="@+id/userPicture" />
+
+
+        <Button
+            android:id="@+id/uploadPic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="143dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="uploadUserPic"
+            android:text="Upload"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toTopOf="@+id/usernamefielddivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/takePic" />
+
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/usernamefield"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:layout_marginBottom="243dp"
+        android:layout_marginTop="582dp"
+        android:layout_marginBottom="101dp"
+        android:textSize="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="36dp"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPicture" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/usernamefielddivider"
         android:layout_width="350dp"
         android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="201dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="54dp"
         android:background="@color/divider_timestamp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernamefield" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/userPicture"
+        android:layout_width="369dp"
+        android:layout_height="385dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

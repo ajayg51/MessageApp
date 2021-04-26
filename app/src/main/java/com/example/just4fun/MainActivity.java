@@ -39,6 +39,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SnapshotMetadata;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -86,15 +88,18 @@ import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener,ClickMethods{
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, ClickMethods {
     private static final String TAG = "MainActivity";
     RecyclerView recyclerView;
-    boolean connected=false;
+    boolean connected = false;
     CoordinatorLayout coordinatorLayout;
     noteRecyclerAdapter noteRecyclerAdapter;
-    boolean installed=false;
-    boolean showinfofirsttime=true;
+    boolean installed = false;
+    boolean showinfofirsttime = true;
     TextView textViewMessage;
+    public String photourl;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +107,14 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         setContentView(R.layout.activity_main);
 
 
-        coordinatorLayout=findViewById(R.id.coordlayout);
-        recyclerView=(RecyclerView) findViewById(R.id.recyclerView);
-        textViewMessage=findViewById(R.id.message);
-
-        showinfofirsttime=getSharedPreferences("PREFERENCE",MODE_PRIVATE).getBoolean("showinfofirsttime",true);
-        if(showinfofirsttime)showInfo();
-        getSharedPreferences("PREFERENCE",0).edit().putBoolean("showinfofirsttime",false).apply();
-
+        coordinatorLayout = findViewById(R.id.coordlayout);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        textViewMessage = findViewById(R.id.message);
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        showinfofirsttime = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("showinfofirsttime", true);
+        if (showinfofirsttime) showInfo();
+        getSharedPreferences("PREFERENCE", 0).edit().putBoolean("showinfofirsttime", false).apply();
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -180,11 +185,12 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
 
-    private void addNote(String Value) {
+    public void addNote(String Value) {
         String uid = FirebaseAuth.getInstance().getUid();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
         String timeStamp = simpleDateFormat.format(new Date());
-        String photourl = "", email = "";
+        String email = "";
+        photourl = "";
         email = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
         Log.d(TAG, "addNote: email" + email);
         if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
@@ -193,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         additems item = new additems(Value, timeStamp, uid, photourl, username, email);
         FirebaseFirestore.getInstance()
                 .collection("Messages")
+//                .collection("Bikes")
                 .add(item)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -268,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             if (id == R.id.action_share) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Share : ")
-                        .setMessage("Send beGlobal.apk file present in file manager and send over whatsapp.Install from file manager only\n");
+                        .setMessage("Send beGlobal.apk file present in file manager over whatsapp.\nInstall apk from file manager only.\n");
                 AlertDialog dialog = builder.create();
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFCAE6CD")));
                 dialog.show();
@@ -348,15 +355,17 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     }
 //Calling NoteRecyclerAdapter
-    private  void init(String user){
+    private  void init(String user) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Query query=FirebaseFirestore.getInstance()
-                    .collection("Messages")
-                    .orderBy("timestamp", Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<additems> options=new FirestoreRecyclerOptions.Builder<additems>()
-                                                    .setQuery(query,additems.class)
-                                                    .build();
-        noteRecyclerAdapter noteRecyclerAdapter=new noteRecyclerAdapter(options,this);
+        Query query = FirebaseFirestore.getInstance()
+                .collection("Messages")
+//                    .collection("Bikes")
+                .orderBy("timestamp", Query.Direction.DESCENDING);
+
+        FirestoreRecyclerOptions<additems> options = new FirestoreRecyclerOptions.Builder<additems>()
+                .setQuery(query, additems.class)
+                .build();
+        noteRecyclerAdapter noteRecyclerAdapter = new noteRecyclerAdapter(options, this);
         recyclerView.setAdapter(noteRecyclerAdapter);
         noteRecyclerAdapter.startListening();
     }
@@ -480,7 +489,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
 
     private void undoAddNote(DocumentSnapshot snapshot) {
-        String photourl = "";
+        photourl = "";
         if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
             photourl = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
         String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
@@ -506,11 +515,20 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     @Override
     public void userpicClick(DocumentSnapshot snapshot) {
-            String userpicString =snapshot.get("photourl").toString();
-            String username=snapshot.get("username").toString();
-            Intent intent=new Intent(this,pictureUser.class);
-            intent.putExtra("userPic",userpicString);
-            intent.putExtra("username",username);
+
+        String userpicString = snapshot.get("photourl").toString();
+        String username = snapshot.get("username").toString();
+        Intent intent;
+        if (FirebaseAuth.getInstance().getUid().equals(snapshot.get("uid"))) {
+            intent = new Intent(this, pictureUser.class);
+            intent.putExtra("userPic", userpicString);
+            intent.putExtra("username", username);
             startActivity(intent);
+        } else {
+            intent = new Intent(this, UserDetails.class);
+            intent.putExtra("userPic", userpicString);
+            intent.putExtra("username", username);
+            startActivity(intent);
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.example.just4fun;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
@@ -34,6 +38,7 @@ import java.util.regex.Pattern;
 
 public class noteRecyclerAdapter extends FirestoreRecyclerAdapter<additems, noteRecyclerAdapter.NoteViewholder> {
     private static final String TAG = "noteRecyclerAdapter";
+    private ImageView userPic;
     ClickMethods clickMethods;
     public noteRecyclerAdapter(@NonNull FirestoreRecyclerOptions<additems> options,ClickMethods clickMethods) {
         super(options);
@@ -56,8 +61,7 @@ public class noteRecyclerAdapter extends FirestoreRecyclerAdapter<additems, note
                     textViewString+=" ";
                 }
             }
-        }
-        else textViewString=task.getItem();
+        } else textViewString=task.getItem();
         String textViewTimestamp="";
         String timestamp=task.getTimestamp();
         String timestampDd=timestamp.substring(0,2);
@@ -85,14 +89,28 @@ public class noteRecyclerAdapter extends FirestoreRecyclerAdapter<additems, note
             Glide.with(holder.imageView).load(task.getPhotourl()).into(holder.imageView);
         else
             Glide.with(holder.imageView).load(R.drawable.person).into(holder.imageView);
+        userPic = holder.imageView;
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                .child(FirebaseAuth.getInstance().getUid().toString());
+        storageReference.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        userProfileUrl(uri);
+                    }
+                });
 
+    }
+
+    private void userProfileUrl(Uri uri) {
+        Glide.with(userPic).load(uri).into(userPic);
     }
 
     @NonNull
     @Override
     public NoteViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
-        View view=layoutInflater.inflate(R.layout.itemlist,parent,false);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.itemlist, parent, false);
 
         return new NoteViewholder(view);
 

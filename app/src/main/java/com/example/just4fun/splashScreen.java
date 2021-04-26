@@ -66,7 +66,7 @@ public class splashScreen extends AppCompatActivity {
                 public void onClick(View view) {
                     if (isConnected()) {
                         List<AuthUI.IdpConfig> providers = Arrays.asList(
-//                                new AuthUI.IdpConfig.GoogleBuilder().build()
+//                                new AuthUI.IdpConfig.GoogleBuilder().build(),
                                 new AuthUI.IdpConfig.EmailBuilder().build()
 //                                new AuthUI.IdpConfig.PhoneBuilder().build()
                         );
@@ -122,17 +122,11 @@ public class splashScreen extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == FIREBASE_AUTH_CODE) {
             if (resultCode == RESULT_OK) {
-                if (FirebaseAuth.getInstance().getCurrentUser().getMetadata().getLastSignInTimestamp() ==
-                        FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp())
-                    Toast.makeText(this, "Welcome New User", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(this, "Hello Old User", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(splashScreen.this, MainActivity.class));
                 this.finish();
             }
         } else {
             Toast.makeText(this, "Some Error Occured", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onActivityResult: fail");
         }
     }
 
