@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private void showInfo(){
         AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Info :: ")
+        builder.setTitle("Info : ")
                 .setMessage("---> Click On Pencil To Post A new \tMessage\n" +
                         "---> Click On Date/Time to Edit Your Message & Click + Hold to Delete It. \n" +
                         "---> Click On UNDO To Recover Back Your Recent Deleted Message\n\n" +
@@ -273,9 +273,19 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             }
             //if share selected
             if (id == R.id.action_share) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Share : ")
-                        .setMessage("Send beGlobal.apk file present in file manager over whatsapp.\nInstall apk from file manager only.\n");
+                        .setMessage("Download beGlobal.apk file from github link. Click on Share to send the link.\n")
+                        .setPositiveButton("Share", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, "https://github.com/ajayg51/MessageApp/blob/master/app/install/beGlobal.apk");
+                                shareIntent.setType("text/plain");
+                                startActivity(shareIntent);
+                            }
+                        }).setNegativeButton("Cancel", null);
                 AlertDialog dialog = builder.create();
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFCAE6CD")));
                 dialog.show();
@@ -285,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             //if logout selected
             if (id == R.id.action_logout) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Sign Out").setMessage("Want to Logout")
+                builder.setTitle("Sign Out")
                         .setPositiveButton("LogOut", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
