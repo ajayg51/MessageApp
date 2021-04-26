@@ -13,7 +13,7 @@ A blog based android application where anyone can share their thoughts created u
 #### Screenshots
 
 ![Alt text](./images/1.jpg "Login/Register ")
-![Alt text](./images/2.jpg "Welcome ")<br>
+![Alt text](./images/2.jpg "Welcome ")
 ![Alt text](./images/3.jpg "Info ")
 ![Alt text](./images/4.jpg "Blog ")
 ![Alt text](./images/5.jpg "Profile ")
