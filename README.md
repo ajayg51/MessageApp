@@ -1,9 +1,9 @@
 # beGlobal
 ## beGlobal | APP WHICH CONNECTS ALL
 ### Table of Contents
-*[General info](#General-info)
-*[Screenshots](#Screenshots)
-*[Technologies](#Technologies)
+*[General info](#General-info)<br>
+*[Screenshots](#Screenshots)<br>
+*[Technologies](#Technologies)<br>
 *[Installation](#Install)
 
 #### General info
@@ -25,6 +25,6 @@ A blog based android application where anyone can share their thoughts created u
 
 ```
 #### Installation
-Link for beGlobal.apk file (./install/beGlobal.apk)
+![Link for beGlobal.apk file](./install/beGlobal.apk)
 
 
