@@ -12,13 +12,13 @@ A blog based android application where anyone can share their thoughts created u
 ```
 #### Screenshots
 
-![Alt text](./images/1.jpg "Login/Register Page")
-![Info](https://user-images.githubusercontent.com/60037249/94258988-6330e400-ff4b-11ea-8352-96427152f023.jpeg)
-![MainScreen](https://user-images.githubusercontent.com/60037249/94260204-5f9e5c80-ff4d-11ea-9e46-816a4d8687e4.jpeg)
-<br>
-![NewPost](https://user-images.githubusercontent.com/60037249/94260211-62994d00-ff4d-11ea-92d9-18403bc2f3bb.jpeg)
-![Profile](https://user-images.githubusercontent.com/60037249/94260221-64fba700-ff4d-11ea-9001-dd985d379c5d.jpeg)
-![UserDetails](https://user-images.githubusercontent.com/60037249/94260233-67f69780-ff4d-11ea-9263-3eb311322534.jpeg)
+![Alt text](./images/1.jpg "Login/Register ")
+![Alt text](./images/2.jpg "Welcome ")
+![Alt text](./images/3.jpg "Info ")
+![Alt text](./images/4.jpg "Blog ")
+![Alt text](./images/5.jpg "Profile ")
+![Alt text](./images/6.jpg "Others ")
+![Alt text](./images/7.jpg "Self")
 
 #### Technologies
 ```
