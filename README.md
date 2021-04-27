@@ -12,12 +12,13 @@ A blog based android application where anyone can share their thoughts created u
 ```
 #### Screenshots
 
-![Alt text](./images/1.jpg "Login/Register ")
-![Alt text](./images/2.jpg "Welcome ")
-![Alt text](./images/3.jpg "Info ")
-![Alt text](./images/4.jpg "Blog ")
-![Alt text](./images/6.jpg "Others ")
-![Alt text](./images/7.jpg "Self")
+![Login/Register](./images/1.jpg "Login/Register ")
+![Welcome](./images/2.jpg "Welcome ")
+![Info](./images/3.jpg "Info ")
+![Blog](./images/4.jpg "Blog ")
+![Profile](./images/4.jpg "Profile ")
+![Others](./images/6.jpg "Others ")
+![Self](./images/7.jpg "Self")
 
 #### Technologies
 ```
