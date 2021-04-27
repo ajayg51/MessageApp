@@ -16,7 +16,7 @@ A blog based android application where anyone can share their thoughts created u
 ![Welcome](./images/2.jpg "Welcome ")
 ![Info](./images/3.jpg "Info ")
 ![Blog](./images/4.jpg "Blog ")
-![Profile](./images/4.jpg "Profile ")
+![Profile](./images/5.jpg "Profile ")
 ![Others](./images/6.jpg "Others ")
 ![Self](./images/7.jpg "Self")
 
