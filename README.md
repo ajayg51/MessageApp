@@ -27,7 +27,7 @@ A blog based android application where anyone can share their thoughts created u
 
 ```
 #### Installation
-* <a href="https://github.com/ajayg51/MessageApp/blob/master/app/install/beGlobal.apk?raw=truec">Click here</a> to download beGlobal.apk file
+* [Click here](https://github.com/ajayg51/MessageApp/blob/master/app/install/beGlobal.apk?raw=true) to download beGlobal.apk file
 
 
 
