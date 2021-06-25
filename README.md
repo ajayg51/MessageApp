@@ -1,13 +1,33 @@
-# MessageApp
-MESSAGE APP | APP WHICH CONNECTS ALL<br>
-A blog based android application where anyone can share their thoughts.<br>
-![Welcome](https://user-images.githubusercontent.com/60037249/94258578-ac346880-ff4a-11ea-94a8-2f0d36a2ae45.jpeg)
-![Info](https://user-images.githubusercontent.com/60037249/94258988-6330e400-ff4b-11ea-8352-96427152f023.jpeg)
-![MainScreen](https://user-images.githubusercontent.com/60037249/94260204-5f9e5c80-ff4d-11ea-9e46-816a4d8687e4.jpeg)
-<br>
-![NewPost](https://user-images.githubusercontent.com/60037249/94260211-62994d00-ff4d-11ea-92d9-18403bc2f3bb.jpeg)
-![Profile](https://user-images.githubusercontent.com/60037249/94260221-64fba700-ff4d-11ea-9001-dd985d379c5d.jpeg)
-![UserDetails](https://user-images.githubusercontent.com/60037249/94260233-67f69780-ff4d-11ea-9263-3eb311322534.jpeg)
+# `beGlobal`
+## `beGlobal | APP WHICH CONNECTS ALL`
+### Table of Contents
+*[General info](#General-info)<br>
+*[Screenshots](#Screenshots)<br>
+*[Technologies](#Technologies)<br>
+*[Installation](#Install)
+
+#### General info
+```
+A blog based android application where anyone can share their thoughts created using JAVA and FIREBASE.
+```
+#### Screenshots
+
+![Login/Register](./images/1.jpg "Login/Register ")
+![Welcome](./images/2.jpg "Welcome ")
+![Info](./images/3.jpg "Info ")
+![Blog](./images/4.jpg "Blog ")
+![Profile](./images/5.jpg "Profile ")
+![Others](./images/6.jpg "Others ")
+![Self](./images/7.jpg "Self")
+
+#### Technologies
+```
+* JAVA
+* FIREBASE
+
+```
+#### Installation
+* [Click here](https://github.com/ajayg51/MessageApp/blob/master/app/install/beGlobal.apk?raw=true) to download beGlobal.apk file
 
 
 
