@@ -2,14 +2,19 @@
 ## `beGlobal | APP WHICH CONNECTS ALL`
 ### Table of Contents
 *[General info](#General-info)<br>
+*[Installation](#Install)<br>
 *[Screenshots](#Screenshots)<br>
 *[Technologies](#Technologies)<br>
-*[Installation](#Install)
+
 
 #### General info
 ```
 A blog based android application where anyone can share their thoughts created using JAVA and FIREBASE.
 ```
+
+#### Installation
+* [Click here](https://github.com/ajayg51/MessageApp/blob/master/app/install/beGlobal.apk?raw=true) to download beGlobal.apk file
+
 #### Screenshots
 
 ![Login/Register](./images/1.jpg "Login/Register ")
@@ -26,8 +31,6 @@ A blog based android application where anyone can share their thoughts created u
 * FIREBASE
 
 ```
-#### Installation
-* [Click here](https://github.com/ajayg51/MessageApp/blob/master/app/install/beGlobal.apk?raw=true) to download beGlobal.apk file
 
 
 
